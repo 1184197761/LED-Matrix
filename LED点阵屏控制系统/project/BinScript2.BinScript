@@ -1,0 +1,34 @@
+memset(ibuf, ff);
+read(bin, program.bin);
+remap(0, 0, 100);将256字节单独保存,作为loader获取到实际代码的信息
+write(bin, code512.bin);
+
+reset(obuf);
+reset(ibuf);
+memset(obuf, ff);
+memset(ibuf, ff);
+read(bin, loader.bin);
+def(LOADER_LEN, v_lx);
+read(bin, program.bin);
+def32_at(cust_id, 85);
+remap(0, LOADER_LEN, v_lx);
+reset(ibuf);
+memset(ibuf, ff);
+
+read(bin, loader.bin);
+
+remap(0, 0, v_lx);
+setbuf32(85, cust_id);
+
+reset(ibuf);
+memset(ibuf, ff);
+read(bin, code512.bin);
+remap(0, 100, v_lx);
+
+
+memmode(obuf, 8, lit);
+write(bin, project_merge.bin);
+
+
+
+
